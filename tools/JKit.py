@@ -1,4 +1,5 @@
 import json
+import requests
 
 
 def load_json_file(file_path, encoding='utf-8'):
@@ -24,3 +25,13 @@ def validate_json(json_data):
         return True
     except json.JSONDecodeError:
         return False
+
+
+def load_url(url, params={}):
+    """
+    get json from url
+    params is a dict.
+    """
+    response = requests.get(url, params)
+    response.encoding = 'utf-8'
+    return response.json()
