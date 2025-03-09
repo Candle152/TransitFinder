@@ -9,7 +9,8 @@ class ApiClient:
             'key': '',
             'city': '',
             'keywords': '',
-            'extensions': 'base'
+            'extensions': 'base',
+            'offset': '1'
         }
 
     def setCity(self, city):
@@ -25,6 +26,9 @@ class ApiClient:
         if all:
             self.params['extensions'] = 'all'
 
+    def setOffset(self, number):
+        self.params['offset'] = number
+    
     def getLine(self):
         """
         get the line for the bus in the city
@@ -42,16 +46,37 @@ class ApiClient:
                 print('The key is depleted')
 
 
-def main():
-    userInput = sys.argv[1:]
-    apc = ApiClient()
-    apc.setKey(userInput[0])
-    apc.setCity(userInput[1])
-    apc.setKeywords(userInput[2])
-    lines = apc.getLine()
-    for line in lines:
-        print(line)
+def readCommand(argv):
+    import argparse
+    # read the command
+    parser = argparse.ArgumentParser(description="基于高德api的公交查询工具")
+    parser.add_argument('-k', '--key', type=str, help='设置密钥')
+    parser.add_argument('-c', '--city', type=str,
+                        required=True, help='设置查询城市(中文,全拼音,城市编码)')
+    parser.add_argument('-l', '--line', type=str,
+                        required=True, help='设置想要查询线路')
+    parser.add_argument('-a', '--all',
+                        action='store_true', help='返回详细信息')
+    parser.add_argument('-n', '--number', type=int, help='设置最大查询个数')
+
+    # Parsing parameters and return
+    return parser.parse_args()
+
+
+def processCommand(args, apc):
+    if args.key:
+        apc.setKey(args.key)
+    if args.number:
+        apc.setOffset(args.number)
+    apc.setCity(args.city)
+    apc.setKeywords(args.line)
+    apc.setExtensions(args.all)
 
 
 if __name__ == '__main__':
-    main()
+    userInput = sys.argv[1:]
+    apc = ApiClient()
+    processCommand(readCommand(userInput), apc)
+    lines = apc.getLine()
+    for line in lines:
+        print(line)
