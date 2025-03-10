@@ -1,5 +1,6 @@
 import os
 
+
 class ConfigReader:
     def __init__(self, filename="_navicrc"):
         self.filename = filename
