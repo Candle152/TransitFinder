@@ -12,6 +12,7 @@ if __name__ == '__main__':
     NCLI = navicCLI.NavicCLI(apc)
     NCLI.readCommand()
     # print(apc.params['key'])
+    # print(apc.params['extensions'])
     lines = apc.getLine()
     for line in lines:
         print("--------------------------")

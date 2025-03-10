@@ -20,8 +20,10 @@ class NavicCLI:
                                  help='设置查询城市(中文,全拼音,城市编码)')
         self.parser.add_argument('-l', '--line', type=str,
                                  help='设置想要查询线路')
-        self.parser.add_argument('-a', '--all', action='store_true',
-                                 help='返回详细信息')
+        self.parser.add_argument('-e', '--extensions', type=str,
+                                 choices=['base', 'all'],
+                                 default='base',
+                                 help='返回基本信息或详细信息')
         self.parser.add_argument('-n', '--number', type=int,
                                  help='设置最大查询个数，默认1')
         self.parser.add_argument('--set-key', type=str,
@@ -47,6 +49,6 @@ class NavicCLI:
 
         self.apClt.setCity(args.city)
         self.apClt.setKeywords(args.line)
-        self.apClt.setExtensions(args.all)
+        self.apClt.setExtensions(args.extensions)
 
         return self.parser.parse_args() 

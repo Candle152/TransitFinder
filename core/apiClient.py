@@ -21,9 +21,8 @@ class ApiClient:
     def setKeywords(self, keywords):
         self.params['keywords'] = keywords
 
-    def setExtensions(self, all):
-        if all:
-            self.params['extensions'] = 'all'
+    def setExtensions(self, extensions):
+        self.params['extensions'] = extensions
 
     def setOffset(self, number):
         self.params['offset'] = number
