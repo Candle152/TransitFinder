@@ -1,17 +1,17 @@
 import argparse
-from .configReader import ConfigReader
+from .configManager import ConfigManager
 
 
 class NavicCLI:
     def __init__(self, apiClinet):
-        self.conRe = ConfigReader()
+        self.conMan = ConfigManager()
         self.apClt = apiClinet
         self.parser = argparse.ArgumentParser(description="基于高德api的查询工具")
         self._loadConfig()
         self._setCommand()
 
     def _loadConfig(self):
-        self.apClt.setKey(self.conRe.get('key'))
+        self.apClt.setKey(self.conMan.get('key'))
 
     def _setCommand(self):
         self.parser.add_argument('-k', '--key', type=str,
@@ -33,8 +33,8 @@ class NavicCLI:
         args = self.parser.parse_args()
 
         if args.set_key:
-            self.conRe.set('key', args.set_key)
-            self.conRe.save()
+            self.conMan.set('key', args.set_key)
+            self.conMan.save()
             exit(0)
         if not args.city:
             print("error: the following arguments are required: -c/--city")
