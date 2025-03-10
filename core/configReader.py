@@ -59,6 +59,7 @@ class ConfigReader:
                         file.write(f"{key}={self.config[key]}\n")
                         continue
                 file.write(line)
+        print("save successfully")
 
     def __getitem__(self, key):
         """Support accessing values using config['key'] syntax."""
