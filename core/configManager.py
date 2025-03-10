@@ -1,7 +1,8 @@
 import os
 
 
-class ConfigReader:
+class ConfigManager:
+    """ Configuration File Management"""
     def __init__(self, filename="_navicrc"):
         self.filename = filename
         self.config = {}
@@ -73,7 +74,7 @@ class ConfigReader:
 # Example usage
 if __name__ == "__main__":
     try:
-        config = ConfigReader("_navicrc")
+        config = ConfigManager("_navicrc")
         print("Host:", config.get("host"))
         print("Port:", config.get("port"))
         print("Username:", config["username"])
