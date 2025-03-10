@@ -1,49 +1,8 @@
-from tools import JKit
+from core import apiClient
 import sys
 
-
-class ApiClient:
-    def __init__(self):
-        self.url = "https://restapi.amap.com/v3/bus/linename?parameters"
-        self.params = {
-            'key': '',
-            'city': '',
-            'keywords': '',
-            'extensions': 'base',
-            'offset': '1'
-        }
-
-    def setCity(self, city):
-        self.params['city'] = city
-
-    def setKey(self, key):
-        self.params['key'] = key
-
-    def setKeywords(self, keywords):
-        self.params['keywords'] = keywords
-
-    def setExtensions(self, all):
-        if all:
-            self.params['extensions'] = 'all'
-
-    def setOffset(self, number):
-        self.params['offset'] = number
-    
-    def getLine(self):
-        """
-        get the line for the bus in the city
-        return JSON
-        """
-        data = JKit.load_url(self.url, self.params)
-        try:
-            if data['count'] != 0:
-                return data['buslines']
-            else:
-                return dict()
-        except Exception:
-            print(data['info'])
-            if data['info'] == 'USER_DAILY_QUERY_OVER_LIMIT':
-                print('The key is depleted')
+# the file which save the key
+CONFIG_FILE = "_navicrc"
 
 
 def readCommand(argv):
@@ -82,7 +41,7 @@ def processCommand(args, apc):
 
 if __name__ == '__main__':
     userInput = sys.argv[1:]
-    apc = ApiClient()
+    apc = apiClient.ApiClient()
     processCommand(readCommand(userInput), apc)
     lines = apc.getLine()
     for line in lines:
