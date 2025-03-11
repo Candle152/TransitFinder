@@ -71,32 +71,31 @@ class NavicCLI:
         self.apClt.setKeywords(args.word)
         self.apClt.setExtensions(args.extensions)
 
+    def _printline_base(self, line):
+        print('id: ' + line['id'])
+        print('type: ' + line['type'])
+        print('name: ' + line['name'])
+        print('start_stop: ' + line['start_stop'])
+        print('end_stop: ' + line['end_stop'])
+
+    def _printline_other(self, line):
+        print('start_time: ' + line['start_time'])
+        print('end_time: ' + line['end_time'])
+        print('company: ' + line['company'])
+        print('busstops:')
+        for busstop in line['busstops']:
+            print(busstop)
+
     def printLines(self, lines):
         if len(lines) == 0:
             print('Don`t find any lines')
 
         extensions = self.apClt.getExtensions()
-        if extensions == 'base':
-            for line in lines:
-                print("--------------------------")
-                print('id: ' + line['id'])
-                print('type: ' + line['type'])
-                print('name: ' + line['name'])
-                print('start_stop: ' + line['start_stop'])
-                print('end_stop: ' + line['end_stop'])
-                print("--------------------------")
-        elif extensions == 'all':
-            for line in lines:
-                print("--------------------------")
-                print('id: ' + line['id'])
-                print('type: ' + line['type'])
-                print('name: ' + line['name'])
-                print('start_stop: ' + line['start_stop'])
-                print('end_stop: ' + line['end_stop'])
-                print('start_time: ' + line['start_time'])
-                print('end_time: ' + line['end_time'])
-                print('company: ' + line['company'])
-                print('busstops:')
-                for busstop in line['busstops']:
-                    print(busstop)
-                print("--------------------------")
+        for line in lines:
+            print("--------------------------")
+            if extensions == 'base':
+                self._printline_base(line)
+            elif extensions == 'all':
+                self._printline_base(line)
+                self._printline_other(line)
+            print("--------------------------")
