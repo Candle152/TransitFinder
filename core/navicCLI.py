@@ -18,15 +18,16 @@ class NavicCLI:
         self.parser.add_argument('-k', '--key', type=str,
                                  help='设置密钥')
         self.parser.add_argument('-c', '--city', type=str,
-                                 help='设置查询城市(中文,全拼音,城市编码)')
-        self.parser.add_argument('-l', '--line', type=str,
-                                 help='设置想要查询线路')
+                                 help='设置查询城市(中文,城市编码)')
+        self.parser.add_argument('-w', '--word', type=str,
+                                 help='设置想要查询线路名称')
         self.parser.add_argument('-e', '--extensions', type=str,
                                  choices=['base', 'all'],
                                  default='base',
                                  help='返回基本信息或详细信息')
         self.parser.add_argument('-n', '--number', type=int,
                                  help='设置最大查询个数，默认1')
+
         self.parser.add_argument('--set-key', type=str,
                                  help='设置默认key')
 
@@ -40,7 +41,7 @@ class NavicCLI:
         if not args.city:
             print("error: the following arguments are required: -c/--city")
             exit(1)
-        if not args.line:
+        if not args.word:
             print("error: the following arguments are required: -l/--line")
             exit(1)
         if args.key:
@@ -49,7 +50,7 @@ class NavicCLI:
             self.apClt.setOffset(args.number)
 
         self.apClt.setCity(args.city)
-        self.apClt.setKeywords(args.line)
+        self.apClt.setKeywords(args.word)
         self.apClt.setExtensions(args.extensions)
 
         return self.parser.parse_args() 
