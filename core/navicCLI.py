@@ -3,6 +3,7 @@ from .configManager import ConfigManager
 
 
 class NavicCLI:
+    """Command Parsing Tool"""
     def __init__(self, apiClinet):
         self.conMan = ConfigManager()
         self.apClt = apiClinet
