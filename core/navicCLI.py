@@ -9,12 +9,17 @@ class NavicCLI:
         self.apClt = apiClinet
         self.parser = argparse.ArgumentParser(description="基于高德api的查询工具")
         self._loadConfig()
-        self._setCommand()
+        self._setupParameters()
 
     def _loadConfig(self):
         self.apClt.setKey(self.conMan.get('key'))
 
-    def _setCommand(self):
+    def _setupParameters(self):
+        self._setup_nurmalParameters()
+
+        self._setup_settingParameters()
+
+    def _setup_nurmalParameters(self):
         self.parser.add_argument('-k', '--key', type=str,
                                  help='设置密钥')
         self.parser.add_argument('-c', '--city', type=str,
@@ -28,6 +33,7 @@ class NavicCLI:
         self.parser.add_argument('-n', '--number', type=int,
                                  help='设置最大查询个数，默认1')
 
+    def _setup_settingParameters(self):
         self.parser.add_argument('--set-key', type=str,
                                  help='设置默认key')
 
