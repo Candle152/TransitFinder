@@ -50,6 +50,9 @@ class ConfigManager:
             filename = self.filename
 
         with open(filename, "w", encoding="utf-8") as file:
+            # record the key which is saved
+            processed_keys = set()
+
             for line in self.original_lines:
                 stripped_line = line.strip()
                 # If the line is a key-value pair, update it
@@ -58,8 +61,14 @@ class ConfigManager:
                     if key in self.config:
                         # Replace the value with the updated one
                         file.write(f"{key}={self.config[key]}\n")
+                        processed_keys.add(key)
                         continue
                 file.write(line)
+
+            # save the new config
+            for key, value in self.config.items():
+                if key not in processed_keys:
+                    file.write(f"{key}={value}\n")
         print("save successfully")
 
     def __getitem__(self, key):
@@ -74,13 +83,8 @@ class ConfigManager:
 # Example usage
 if __name__ == "__main__":
     try:
-        config = ConfigManager("_navicrc")
-        print("Host:", config.get("host"))
-        print("Port:", config.get("port"))
-        print("Username:", config["username"])
-        print("Password:", config.get("password", "未设置"))
+        config = ConfigManager()
         # Update a value
-        config.set("port", "8080")
         config.set("new_key", "new_value")  # Add a new key-value pair
 
         # Save the updated configuration
