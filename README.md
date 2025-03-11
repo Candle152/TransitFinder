@@ -1,7 +1,6 @@
 # TransitFinder
+
 基于高德api的线路查询工具
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 
 ### 上手指南
 
