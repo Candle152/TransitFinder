@@ -15,11 +15,4 @@ if __name__ == '__main__':
     # print(apc.params['extensions'])
     # print(apc.params)
     lines = apc.getLine()
-    for line in lines:
-        print("--------------------------")
-        print('id: ' + line['id'])
-        print('type: ' + line['type'])
-        print('name: ' + line['name'])
-        print('start_stop: ' + line['start_stop'])
-        print('end_stop: ' + line['end_stop'])
-        print("--------------------------")
+    NCLI.printLines(lines)

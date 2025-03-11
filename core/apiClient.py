@@ -24,6 +24,9 @@ class ApiClient:
     def setOffset(self, number):
         self.params['offset'] = number
     
+    def getExtensions(self):
+        return self.params['extensions']
+
     def getLine(self):
         """
         get the line for the bus in the city
@@ -41,3 +44,4 @@ class ApiClient:
                 return dict()
         except Exception:
             print(data['info'])
+

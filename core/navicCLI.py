@@ -3,7 +3,7 @@ from .configManager import ConfigManager
 
 
 class NavicCLI:
-    """Command Parsing Tool"""
+    """Command Tool"""
     def __init__(self, apiClinet):
         self.conMan = ConfigManager()
         self.apClt = apiClinet
@@ -70,3 +70,33 @@ class NavicCLI:
             
         self.apClt.setKeywords(args.word)
         self.apClt.setExtensions(args.extensions)
+
+    def printLines(self, lines):
+        if len(lines) == 0:
+            print('Don`t find any lines')
+
+        extensions = self.apClt.getExtensions()
+        if extensions == 'base':
+            for line in lines:
+                print("--------------------------")
+                print('id: ' + line['id'])
+                print('type: ' + line['type'])
+                print('name: ' + line['name'])
+                print('start_stop: ' + line['start_stop'])
+                print('end_stop: ' + line['end_stop'])
+                print("--------------------------")
+        elif extensions == 'all':
+            for line in lines:
+                print("--------------------------")
+                print('id: ' + line['id'])
+                print('type: ' + line['type'])
+                print('name: ' + line['name'])
+                print('start_stop: ' + line['start_stop'])
+                print('end_stop: ' + line['end_stop'])
+                print('start_time: ' + line['start_time'])
+                print('end_time: ' + line['end_time'])
+                print('company: ' + line['company'])
+                print('busstops:')
+                for busstop in line['busstops']:
+                    print(busstop)
+                print("--------------------------")
