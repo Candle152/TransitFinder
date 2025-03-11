@@ -32,6 +32,9 @@ def load_url(url, params={}):
     get json from url
     params is a dict.
     """
-    response = requests.get(url, params)
-    response.encoding = 'utf-8'
-    return response.json()
+    try:
+        response = requests.get(url, params)
+        response.encoding = 'utf-8'
+        return response.json()
+    except Exception as e:
+        return {'error': str(e)}

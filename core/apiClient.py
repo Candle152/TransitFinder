@@ -32,8 +32,12 @@ class ApiClient:
         """
         get the line for the bus in the city
         return JSON
+        if the requests error, data will have 'error'
         """
         data = JKit.load_url(self.url, self.params)
+        if 'error' in data:
+            print(data['error'])
+            exit(1)
         try:
             if data['count'] != 0:
                 return data['buslines']
@@ -41,5 +45,3 @@ class ApiClient:
                 return dict()
         except Exception:
             print(data['info'])
-            if data['info'] == 'USER_DAILY_QUERY_OVER_LIMIT':
-                print('The key is depleted')
