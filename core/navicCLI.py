@@ -13,6 +13,7 @@ class NavicCLI:
 
     def _loadConfig(self):
         self.apClt.setKey(self.conMan.get('key'))
+        self.apClt.setCity(self.conMan.get('city'))
 
     def _setupParameters(self):
         self._setup_nurmalParameters()
@@ -34,29 +35,38 @@ class NavicCLI:
                                  help='设置最大查询个数，默认1')
 
     def _setup_settingParameters(self):
-        self.parser.add_argument('--set-key', type=str,
-                                 help='设置默认key')
+        self.parser.add_argument('--set', action='store_true',
+                                 help='开启设置模式，能保存默认的key和city')
+
+    def _setup_mode(self, args):
+        # save new config
+        if args.key:
+            self.conMan.set('key', args.key)
+        if args.city:
+            self.conMan.set('city', args.city)
+        self.conMan.save()
+        exit(0)
 
     def readCommand(self):
         args = self.parser.parse_args()
 
-        if args.set_key:
-            self.conMan.set('key', args.set_key)
-            self.conMan.save()
-            exit(0)
-        if not args.city:
-            print("error: the following arguments are required: -c/--city")
+        if args.set:
+            """ open setting mode"""
+            self._setup_mode(args)
+
+        if not args.city and not self.conMan.check_exists('city'):
+            print("error: don`t have config city or -c/--city")
             exit(1)
         if not args.word:
             print("error: the following arguments are required: -l/--line")
             exit(1)
+
         if args.key:
             self.apClt.setKey(args.key)
         if args.number:
             self.apClt.setOffset(args.number)
-
-        self.apClt.setCity(args.city)
+        if args.city:
+            self.apClt.setCity(args.city)
+            
         self.apClt.setKeywords(args.word)
         self.apClt.setExtensions(args.extensions)
-
-        return self.parser.parse_args() 
