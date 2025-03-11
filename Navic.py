@@ -13,6 +13,7 @@ if __name__ == '__main__':
     NCLI.readCommand()
     # print(apc.params['key'])
     # print(apc.params['extensions'])
+    # print(apc.params)
     lines = apc.getLine()
     for line in lines:
         print("--------------------------")

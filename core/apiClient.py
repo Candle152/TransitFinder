@@ -6,10 +6,6 @@ class ApiClient:
     def __init__(self):
         self.url = "https://restapi.amap.com/v3/bus/linename?parameters"
         self.params = {
-            'key': '',
-            'city': '',
-            'keywords': '',
-            'extensions': 'base',
             'offset': '1'
         }
 

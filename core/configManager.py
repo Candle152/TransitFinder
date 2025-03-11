@@ -41,6 +41,9 @@ class ConfigManager:
         """
         self.config[key] = value
 
+    def check_exists(self, check_key):
+        return check_key in self.config
+
     def save(self, filename=None):
         """
         Save the configuration back to the file,
