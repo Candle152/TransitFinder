@@ -16,6 +16,7 @@ class NavicCLI:
     def _loadConfig(self):
         self.apClt.setKey(self.conMan.get('key'))
         self.apClt.setCity(self.conMan.get('city'))
+        self.file = self.conMan.get('file')
 
     def _setupParameters(self):
         self._setup_nurmalParameters()
@@ -48,6 +49,8 @@ class NavicCLI:
             self.conMan.set('key', args.key)
         if args.city:
             self.conMan.set('city', args.city)
+        if args.file:
+            self.conMan.set('file', args.file)
         self.conMan.save()
         exit(0)
 
@@ -71,8 +74,8 @@ class NavicCLI:
             self.apClt.setOffset(args.number)
         if args.city:
             self.apClt.setCity(args.city)
-        
-        self.file = args.file
+        if args.file:
+            self.file = args.file
 
         self.apClt.setKeywords(args.word)
         self.apClt.setExtensions(args.extensions)
