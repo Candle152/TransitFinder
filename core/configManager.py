@@ -65,7 +65,7 @@ class ConfigManager:
                         # Replace the value with the updated one
                         file.write(f"{key}={self.config[key]}\n")
                         processed_keys.add(key)
-                        continue
+                    continue
                 file.write(line)
 
             # save the new config
