@@ -1,5 +1,6 @@
 import argparse
 from .configManager import ConfigManager
+from tools.echo import echo
 
 
 class NavicCLI:
@@ -8,6 +9,7 @@ class NavicCLI:
         self.conMan = ConfigManager()
         self.apClt = apiClinet
         self.parser = argparse.ArgumentParser(description="基于高德api的查询工具")
+        self.file = ''
         self._loadConfig()
         self._setupParameters()
 
@@ -18,7 +20,7 @@ class NavicCLI:
     def _setupParameters(self):
         self._setup_nurmalParameters()
 
-        self._setup_settingParameters()
+        self._setup_advanceParameters()
 
     def _setup_nurmalParameters(self):
         self.parser.add_argument('-k', '--key', type=str,
@@ -34,9 +36,11 @@ class NavicCLI:
         self.parser.add_argument('-n', '--number', type=int,
                                  help='设置最大查询个数，默认1')
 
-    def _setup_settingParameters(self):
+    def _setup_advanceParameters(self):
         self.parser.add_argument('--set', action='store_true',
                                  help='开启设置模式，能保存默认的key和city')
+        self.parser.add_argument('-f', '--file', type=str,
+                                 help='将原始数据重定向到文件')
 
     def _setup_mode(self, args):
         # save new config
@@ -67,35 +71,16 @@ class NavicCLI:
             self.apClt.setOffset(args.number)
         if args.city:
             self.apClt.setCity(args.city)
-            
+        
+        self.file = args.file
+
         self.apClt.setKeywords(args.word)
         self.apClt.setExtensions(args.extensions)
 
-    def _printline_base(self, line):
-        print('id: ' + line['id'])
-        print('type: ' + line['type'])
-        print('name: ' + line['name'])
-        print('start_stop: ' + line['start_stop'])
-        print('end_stop: ' + line['end_stop'])
-
-    def _printline_other(self, line):
-        print('start_time: ' + line['start_time'])
-        print('end_time: ' + line['end_time'])
-        print('company: ' + line['company'])
-        print('busstops:')
-        for busstop in line['busstops']:
-            print(busstop)
-
-    def printLines(self, lines):
-        if len(lines) == 0:
-            print('Don`t find any lines')
-
-        extensions = self.apClt.getExtensions()
-        for line in lines:
-            print("--------------------------")
-            if extensions == 'base':
-                self._printline_base(line)
-            elif extensions == 'all':
-                self._printline_base(line)
-                self._printline_other(line)
-            print("--------------------------")
+    def output(self, data, data_type='lines'):
+        if self.file:
+            echo(data, 'json', file_path=self.file)
+        else:
+            # stdout
+            extensions = self.apClt.getExtensions()
+            echo(data, extensions, data_type=data_type)

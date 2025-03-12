@@ -15,4 +15,4 @@ if __name__ == '__main__':
     # print(apc.params['extensions'])
     # print(apc.params)
     lines = apc.getLine()
-    NCLI.printLines(lines)
+    NCLI.output(lines)
