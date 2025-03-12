@@ -41,6 +41,10 @@ class ConfigManager:
         """
         self.config[key] = value
 
+    def del_key(self, key):
+        # del the key in config
+        self.config.pop(key, None)
+
     def check_exists(self, check_key):
         return check_key in self.config
 
@@ -89,6 +93,9 @@ if __name__ == "__main__":
         config = ConfigManager()
         # Update a value
         config.set("new_key", "new_value")  # Add a new key-value pair
+
+        config.set("del_key", "need del")
+        config.del_key('del_key')
 
         # Save the updated configuration
         config.save()
