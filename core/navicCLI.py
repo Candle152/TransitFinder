@@ -40,6 +40,8 @@ class NavicCLI:
     def _setup_advanceParameters(self):
         self.parser.add_argument('--set', action='store_true',
                                  help='开启设置模式，能保存默认的key和city')
+        self.parser.add_argument('-r', '--remove', action='store_true',
+                                 help='删除相应的默认设置')
         self.parser.add_argument('-f', '--file', type=str,
                                  help='将原始数据重定向到文件')
 
@@ -54,12 +56,28 @@ class NavicCLI:
         self.conMan.save()
         exit(0)
 
+    def _remove_mode(self):
+        # remove old config
+        user_input = input("请输入k/c/f\n来删除默认key/city/file:\n")
+        user_input = user_input.lower()
+        if 'k' in user_input:
+            self.conMan.del_key('key')
+        if 'c' in user_input:
+            self.conMan.del_key('city')
+        if 'f' in user_input:
+            self.conMan.del_key('file')
+        self.conMan.save()
+        exit(0)
+
     def readCommand(self):
         args = self.parser.parse_args()
 
         if args.set:
             """ open setting mode"""
             self._setup_mode(args)
+
+        if args.remove:
+            self._remove_mode()
 
         if not args.city and not self.conMan.check_exists('city'):
             print("error: don`t have config city or -c/--city")
