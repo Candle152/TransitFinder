@@ -12,7 +12,8 @@ class ConfigManager:
     def _load_config(self):
         """Load and parse the configuration file."""
         if not os.path.exists(self.filename):
-            raise FileNotFoundError(f"Config file {self.filename} not found")
+            fd = os.open(self.filename, os.O_CREAT | os.O_WRONLY)
+            os.close(fd)
 
         with open(self.filename, "r", encoding="utf-8") as file:
             for line in file:
